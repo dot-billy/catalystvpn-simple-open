@@ -1,0 +1,1 @@
+./nebula-node-creator-darwin-amd64 create --name 1mynosdae --hostname 1mynosdae.example.com
