@@ -1,0 +1,2 @@
+organization_name,network_cidr,lighthouse_name,lighthouse_hostname,lighthouse_public_ip,node_names,node_hostnames
+Test Organization,192.168.100.0/24,Main Lighthouse,lighthouse.example.com,1.2.3.4,"Node1,Node2","node1.example.com,node2.example.com" 

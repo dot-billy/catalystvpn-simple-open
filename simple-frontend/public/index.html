@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#000000" />
+    <meta
+      name="description"
+      content="Nebula VPN Manager - A modern interface for managing Nebula VPN networks"
+    />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    />
+    <title>Nebula VPN Manager</title>
+    <!-- Anti token refresh flood script - DISABLED -->
+    <!--
+    <script>
+      // Emergency defense against token refresh loops
+      (function() {
+        // Clear any problematic tokens on load
+        localStorage.removeItem('authToken');
+        localStorage.removeItem('refreshToken');
+        sessionStorage.removeItem('refreshAttempts');
+        sessionStorage.removeItem('lastRefreshTime');
+        
+        // Block all token refresh attempts
+        const originalFetch = window.fetch;
+        window.fetch = function(url, options) {
+          // If this is a token refresh request, block it and redirect to login
+          if (url && typeof url === 'string' && url.includes('/token/refresh/')) {
+            console.warn('TOKEN REFRESH BLOCKED BY EMERGENCY SCRIPT');
+            window.location.href = '/login';
+            return Promise.reject(new Error('Token refresh blocked by emergency script'));
+          }
+          return originalFetch.apply(this, arguments);
+        };
+        
+        // Also override XMLHttpRequest for axios
+        const originalOpen = XMLHttpRequest.prototype.open;
+        XMLHttpRequest.prototype.open = function(method, url) {
+          if (url && typeof url === 'string' && url.includes('/token/refresh/')) {
+            console.warn('TOKEN REFRESH XHR BLOCKED BY EMERGENCY SCRIPT');
+            window.location.href = '/login';
+            throw new Error('Token refresh blocked by emergency script');
+          }
+          return originalOpen.apply(this, arguments);
+        };
+        
+        console.log('Emergency anti-refresh-flood protection initialized');
+      })();
+    </script>
+    -->
+  </head>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html> 

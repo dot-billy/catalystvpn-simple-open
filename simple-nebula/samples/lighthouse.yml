@@ -1,0 +1,380 @@
+# This is the nebula example configuration file generated from a template
+# Configuration values are populated from variables passed to this template
+
+pki:
+  # The CAs that are accepted by this node, inlined from template variables
+  {% if ca_certs is defined and ca_certs|length > 0 %}
+  # Multiple CA certificates
+  ca: |
+    {% for cert in ca_certs %}
+    {{ cert }}
+    {% endfor %}
+  {% elif ca_cert is defined %}
+  # Single CA certificate (legacy support)
+  ca: |
+    {{ ca_cert }}
+  {% else %}
+  # No CA certificates provided
+  ca: ""
+  {% endif %}
+  cert: |
+    {{ host_cert }}
+  key: |
+    {{ host_key }}
+  {% if blocklist is defined and blocklist|length > 0 %}
+  blocklist:
+    {% for fingerprint in blocklist %}
+    - {{ fingerprint }}
+    {% endfor %}
+  {% endif %}
+  {% if disconnect_invalid is defined %}
+  disconnect_invalid: {{ disconnect_invalid }}
+  {% endif %}
+  {% if default_version is defined %}
+  default_version: {{ default_version }}
+  {% endif %}
+
+static_host_map:
+  {% for nebula_ip, real_addresses in static_host_map.items() %}
+  "{{ nebula_ip }}": {{ real_addresses }}
+  {% endfor %}
+
+{% if static_map is defined %}
+static_map:
+  {% if static_map.cadence is defined %}
+  cadence: {{ static_map.cadence }}
+  {% endif %}
+  {% if static_map.network is defined %}
+  network: {{ static_map.network }}
+  {% endif %}
+  {% if static_map.lookup_timeout is defined %}
+  lookup_timeout: {{ static_map.lookup_timeout }}
+  {% endif %}
+{% endif %}
+
+lighthouse:
+  am_lighthouse: {{ am_lighthouse | default(false) }}
+  {% if serve_dns is defined %}
+  serve_dns: {{ serve_dns }}
+  {% if dns is defined %}
+  dns:
+    {% if dns.host is defined %}
+    host: {{ dns.host }}
+    {% endif %}
+    {% if dns.port is defined %}
+    port: {{ dns.port }}
+    {% endif %}
+  {% endif %}
+  {% endif %}
+  interval: {{ lighthouse_interval | default(60) }}
+  {% if lighthouse_hosts is defined and lighthouse_hosts|length > 0 %}
+  hosts:
+    {% for host in lighthouse_hosts %}
+    - "{{ host }}"
+    {% endfor %}
+  {% else %}
+  hosts: []
+  {% endif %}
+
+  {% if remote_allow_list is defined %}
+  remote_allow_list:
+    {% for cidr, allowed in remote_allow_list.items() %}
+    "{{ cidr }}": {{ allowed | lower }}
+    {% endfor %}
+  {% endif %}
+
+  {% if remote_allow_ranges is defined %}
+  remote_allow_ranges:
+    {% for cidr, ranges in remote_allow_ranges.items() %}
+    "{{ cidr }}":
+      {% for range_cidr, allowed in ranges.items() %}
+      "{{ range_cidr }}": {{ allowed | lower }}
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+  {% if local_allow_list is defined %}
+  local_allow_list:
+    {% if local_allow_list.interfaces is defined %}
+    interfaces:
+      {% for interface, allowed in local_allow_list.interfaces.items() %}
+      '{{ interface }}': {{ allowed | lower }}
+      {% endfor %}
+    {% endif %}
+    {% for cidr, allowed in local_allow_list.items() if cidr != 'interfaces' %}
+    "{{ cidr }}": {{ allowed | lower }}
+    {% endfor %}
+  {% endif %}
+
+  {% if advertise_addrs is defined and advertise_addrs|length > 0 %}
+  advertise_addrs:
+    {% for addr in advertise_addrs %}
+    - "{{ addr }}"
+    {% endfor %}
+  {% endif %}
+
+  {% if calculated_remotes is defined %}
+  calculated_remotes:
+    {% for cidr, masks in calculated_remotes.items() %}
+    {{ cidr }}:
+      {% for mask_info in masks %}
+      - mask: {{ mask_info.mask }}
+        port: {{ mask_info.port }}
+      {% endfor %}
+    {% endfor %}
+  {% endif %}
+
+listen:
+  host: "{{ listen_host | default('::') }}"
+  port: {{ listen_port | default(4242) }}
+  {% if listen_batch is defined %}
+  batch: {{ listen_batch }}
+  {% endif %}
+  {% if read_buffer is defined %}
+  read_buffer: {{ read_buffer }}
+  {% endif %}
+  {% if write_buffer is defined %}
+  write_buffer: {{ write_buffer }}
+  {% endif %}
+  {% if send_recv_error is defined %}
+  send_recv_error: {{ send_recv_error }}
+  {% endif %}
+  {% if so_mark is defined %}
+  so_mark: {{ so_mark }}
+  {% endif %}
+
+{% if routines is defined %}
+routines: {{ routines }}
+{% endif %}
+
+punchy:
+  punch: {{ punchy_punch | default(true) }}
+  {% if punchy_respond is defined %}
+  respond: {{ punchy_respond }}
+  {% endif %}
+  {% if punchy_delay is defined %}
+  delay: {{ punchy_delay }}
+  {% endif %}
+  {% if punchy_respond_delay is defined %}
+  respond_delay: {{ punchy_respond_delay }}
+  {% endif %}
+
+{% if cipher is defined %}
+cipher: {{ cipher }}
+{% endif %}
+
+{% if preferred_ranges is defined and preferred_ranges|length > 0 %}
+preferred_ranges: {{ preferred_ranges }}
+{% endif %}
+
+{% if sshd is defined %}
+sshd:
+  enabled: {{ sshd.enabled | default(false) }}
+  {% if sshd.listen is defined %}
+  listen: {{ sshd.listen }}
+  {% endif %}
+  {% if sshd.host_key is defined %}
+  host_key: {{ sshd.host_key }}
+  {% endif %}
+  {% if sshd.authorized_users is defined and sshd.authorized_users|length > 0 %}
+  authorized_users:
+    {% for user in sshd.authorized_users %}
+    - user: {{ user.user }}
+      keys:
+        {% if user.keys is string %}
+        - "{{ user.keys }}"
+        {% else %}
+        {% for key in user.keys %}
+        - "{{ key }}"
+        {% endfor %}
+        {% endif %}
+    {% endfor %}
+  {% endif %}
+  {% if sshd.trusted_cas is defined and sshd.trusted_cas|length > 0 %}
+  trusted_cas:
+    {% for ca in sshd.trusted_cas %}
+    - "{{ ca }}"
+    {% endfor %}
+  {% endif %}
+{% endif %}
+
+relay:
+  {% if relay_relays is defined and relay_relays|length > 0 %}
+  relays:
+    {% for relay in relay_relays %}
+    - {{ relay }}
+    {% endfor %}
+  {% endif %}
+  am_relay: {{ relay_am_relay | default(false) }}
+  use_relays: {{ relay_use_relays | default(true) }}
+
+tun:
+  disabled: {{ tun_disabled | default(false) }}
+  {% if tun_dev is defined %}
+  dev: {{ tun_dev }}
+  {% endif %}
+  drop_local_broadcast: {{ tun_drop_local_broadcast | default(false) }}
+  drop_multicast: {{ tun_drop_multicast | default(false) }}
+  tx_queue: {{ tun_tx_queue | default(500) }}
+  mtu: {{ tun_mtu | default(1300) }}
+
+  {% if tun_routes is defined and tun_routes|length > 0 %}
+  routes:
+    {% for route in tun_routes %}
+    - mtu: {{ route.mtu }}
+      route: {{ route.route }}
+    {% endfor %}
+  {% endif %}
+
+  {% if unsafe_routes is defined and unsafe_routes|length > 0 %}
+  unsafe_routes:
+    {% for route in unsafe_routes %}
+    - route: {{ route.route }}
+      {% if route.via is string %}
+      via: {{ route.via }}
+      {% else %}
+      via:
+        {% for gateway in route.via %}
+        - gateway: {{ gateway.gateway }}
+          {% if gateway.weight is defined %}
+          weight: {{ gateway.weight }}
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+      {% if route.mtu is defined %}
+      mtu: {{ route.mtu }}
+      {% endif %}
+      {% if route.metric is defined %}
+      metric: {{ route.metric }}
+      {% endif %}
+      {% if route.install is defined %}
+      install: {{ route.install | lower }}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+
+  {% if use_system_route_table is defined %}
+  use_system_route_table: {{ use_system_route_table | lower }}
+  {% endif %}
+
+logging:
+  level: {{ logging_level | default('info') }}
+  format: {{ logging_format | default('text') }}
+  {% if disable_timestamp is defined %}
+  disable_timestamp: {{ disable_timestamp | lower }}
+  {% endif %}
+  {% if timestamp_format is defined %}
+  timestamp_format: "{{ timestamp_format }}"
+  {% endif %}
+
+{% if stats is defined %}
+stats:
+  type: {{ stats.type }}
+  {% if stats.type == 'graphite' %}
+  prefix: {{ stats.prefix }}
+  protocol: {{ stats.protocol }}
+  host: {{ stats.host }}
+  interval: {{ stats.interval }}
+  {% elif stats.type == 'prometheus' %}
+  listen: {{ stats.listen }}
+  path: {{ stats.path }}
+  namespace: {{ stats.namespace }}
+  subsystem: {{ stats.subsystem }}
+  interval: {{ stats.interval }}
+  {% endif %}
+  {% if stats.message_metrics is defined %}
+  message_metrics: {{ stats.message_metrics | lower }}
+  {% endif %}
+  {% if stats.lighthouse_metrics is defined %}
+  lighthouse_metrics: {{ stats.lighthouse_metrics | lower }}
+  {% endif %}
+{% endif %}
+
+{% if handshakes is defined %}
+handshakes:
+  {% if handshakes.try_interval is defined %}
+  try_interval: {{ handshakes.try_interval }}
+  {% endif %}
+  {% if handshakes.retries is defined %}
+  retries: {{ handshakes.retries }}
+  {% endif %}
+  {% if handshakes.query_buffer is defined %}
+  query_buffer: {{ handshakes.query_buffer }}
+  {% endif %}
+  {% if handshakes.trigger_buffer is defined %}
+  trigger_buffer: {{ handshakes.trigger_buffer }}
+  {% endif %}
+{% endif %}
+
+firewall:
+  outbound_action: {{ firewall_outbound_action | default('drop') }}
+  inbound_action: {{ firewall_inbound_action | default('drop') }}
+  
+  {% if firewall_default_local_cidr_any is defined %}
+  default_local_cidr_any: {{ firewall_default_local_cidr_any | lower }}
+  {% endif %}
+
+  conntrack:
+    tcp_timeout: {{ firewall_tcp_timeout | default('12m') }}
+    udp_timeout: {{ firewall_udp_timeout | default('3m') }}
+    default_timeout: {{ firewall_default_timeout | default('10m') }}
+
+  outbound:
+    {% for rule in firewall_outbound %}
+    - port: {{ rule.port }}
+      proto: {{ rule.proto }}
+      {% if rule.host is defined %}
+      host: {{ rule.host }}
+      {% endif %}
+      {% if rule.group is defined %}
+      group: {{ rule.group }}
+      {% endif %}
+      {% if rule.groups is defined %}
+      groups:
+        {% for group in rule.groups %}
+        - {{ group }}
+        {% endfor %}
+      {% endif %}
+      {% if rule.cidr is defined %}
+      cidr: {{ rule.cidr }}
+      {% endif %}
+      {% if rule.local_cidr is defined %}
+      local_cidr: {{ rule.local_cidr }}
+      {% endif %}
+      {% if rule.ca_name is defined %}
+      ca_name: {{ rule.ca_name }}
+      {% endif %}
+      {% if rule.ca_sha is defined %}
+      ca_sha: {{ rule.ca_sha }}
+      {% endif %}
+    {% endfor %}
+
+  inbound:
+    {% for rule in firewall_inbound %}
+    - port: {{ rule.port }}
+      proto: {{ rule.proto }}
+      {% if rule.host is defined %}
+      host: {{ rule.host }}
+      {% endif %}
+      {% if rule.group is defined %}
+      group: {{ rule.group }}
+      {% endif %}
+      {% if rule.groups is defined %}
+      groups:
+        {% for group in rule.groups %}
+        - {{ group }}
+        {% endfor %}
+      {% endif %}
+      {% if rule.cidr is defined %}
+      cidr: {{ rule.cidr }}
+      {% endif %}
+      {% if rule.local_cidr is defined %}
+      local_cidr: {{ rule.local_cidr }}
+      {% endif %}
+      {% if rule.ca_name is defined %}
+      ca_name: {{ rule.ca_name }}
+      {% endif %}
+      {% if rule.ca_sha is defined %}
+      ca_sha: {{ rule.ca_sha }}
+      {% endif %}
+    {% endfor %}

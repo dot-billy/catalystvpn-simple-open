@@ -1,0 +1,4325 @@
+openapi: 3.0.3
+info:
+  title: Nebula VPN Management API
+  version: 1.0.0
+  description: API for managing Nebula VPN networks
+paths:
+  /api/device/updates/check_updates/:
+    get:
+      operationId: device_updates_check_updates_retrieve
+      description: Check for configuration updates.
+      tags:
+      - device
+      responses:
+        '200':
+          description: No response body
+  /api/device/updates/status/:
+    get:
+      operationId: device_updates_status_retrieve
+      description: Get device status.
+      tags:
+      - device
+      responses:
+        '200':
+          description: No response body
+  /api/lighthouses/:
+    get:
+      operationId: lighthouses_list
+      tags:
+      - lighthouses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    post:
+      operationId: lighthouses_create
+      tags:
+      - lighthouses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/lighthouses/{id}/:
+    get:
+      operationId: lighthouses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    put:
+      operationId: lighthouses_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    patch:
+      operationId: lighthouses_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLighthouse'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    delete:
+      operationId: lighthouses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/lighthouses/{id}/check_in/:
+    post:
+      operationId: lighthouses_check_in_create
+      description: Handle lighthouse check-in.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/lighthouses/{id}/generate_config/:
+    post:
+      operationId: lighthouses_generate_config_create
+      description: Generate Nebula configuration for a lighthouse.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/lighthouses/{id}/nodes/:
+    get:
+      operationId: lighthouses_nodes_retrieve
+      description: Get nodes connected to this lighthouse.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      tags:
+      - lighthouses
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/memberships/:
+    get:
+      operationId: memberships_list
+      tags:
+      - memberships
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+          description: ''
+    post:
+      operationId: memberships_create
+      tags:
+      - memberships
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membership'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+  /api/memberships/{id}/:
+    get:
+      operationId: memberships_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      tags:
+      - memberships
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    put:
+      operationId: memberships_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      tags:
+      - memberships
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membership'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    patch:
+      operationId: memberships_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      tags:
+      - memberships
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    delete:
+      operationId: memberships_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      tags:
+      - memberships
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/nodes/:
+    get:
+      operationId: nodes_list
+      tags:
+      - nodes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Node'
+          description: ''
+    post:
+      operationId: nodes_create
+      tags:
+      - nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+  /api/nodes/{id}/:
+    get:
+      operationId: nodes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      tags:
+      - nodes
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+    put:
+      operationId: nodes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      tags:
+      - nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+    patch:
+      operationId: nodes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      tags:
+      - nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNode'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+    delete:
+      operationId: nodes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      tags:
+      - nodes
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/nodes/{id}/check_in/:
+    post:
+      operationId: nodes_check_in_create
+      description: Handle node check-in.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      tags:
+      - nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+  /api/nodes/{id}/generate_config/:
+    post:
+      operationId: nodes_generate_config_create
+      description: Generate Nebula configuration for a node.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      tags:
+      - nodes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+  /api/organizations/:
+    get:
+      operationId: organizations_list
+      description: |-
+        API endpoints for managing organizations.
+
+        Organizations are the top-level entities in the system that group related resources
+        such as networks, lighthouses, and nodes. Each organization has its own:
+        - Certificate Authority
+        - Primary Network
+        - Security Groups
+        - Lighthouses
+        - Nodes
+        - Members
+
+        Operations:
+        - List organizations the user has access to
+        - Create a new organization with a primary network
+        - Retrieve organization details
+        - Update organization information
+        - Delete an organization (requires admin access)
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Organization'
+          description: ''
+    post:
+      operationId: organizations_create
+      description: |-
+        Create a new organization with a primary network.
+
+        This endpoint creates:
+        1. A new organization
+        2. A primary network for the organization
+        3. A certificate authority for the organization
+        4. An admin membership for the requesting user
+
+        The organization will be created with:
+        - A unique slug derived from the name
+        - A primary network with the specified CIDR
+        - A certificate authority for managing device certificates
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Organization'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+  /api/organizations/{organization_slug}/api-keys/:
+    get:
+      operationId: organizations_api_keys_list
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/APIKey'
+          description: ''
+    post:
+      operationId: organizations_api_keys_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: ''
+  /api/organizations/{organization_slug}/api-keys/{id}/:
+    get:
+      operationId: organizations_api_keys_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this API key.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: ''
+    put:
+      operationId: organizations_api_keys_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this API key.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: ''
+    patch:
+      operationId: organizations_api_keys_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this API key.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAPIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAPIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAPIKey'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: ''
+    delete:
+      operationId: organizations_api_keys_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this API key.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/api-keys/{id}/regenerate/:
+    post:
+      operationId: organizations_api_keys_regenerate_create
+      description: Regenerate an API key.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this API key.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: ''
+  /api/organizations/{organization_slug}/api-keys/{id}/revoke/:
+    post:
+      operationId: organizations_api_keys_revoke_create
+      description: Revoke an API key.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this API key.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/APIKey'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+          description: ''
+  /api/organizations/{organization_slug}/ca/:
+    get:
+      operationId: organizations_ca_list
+      description: Return the single CA for this organization if it exists.
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+    post:
+      operationId: organizations_ca_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+  /api/organizations/{organization_slug}/ca/{id}/:
+    get:
+      operationId: organizations_ca_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate authority.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+    put:
+      operationId: organizations_ca_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate authority.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+    patch:
+      operationId: organizations_ca_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate authority.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCertificateAuthority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCertificateAuthority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCertificateAuthority'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+    delete:
+      operationId: organizations_ca_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate authority.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/ca/{id}/revoke/:
+    post:
+      operationId: organizations_ca_revoke_create
+      description: Revoke the CA certificate.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate authority.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+  /api/organizations/{organization_slug}/ca/{id}/rotate/:
+    post:
+      operationId: organizations_ca_rotate_create
+      description: Rotate the CA certificate.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate authority.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CertificateAuthority'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CertificateAuthority'
+          description: ''
+  /api/organizations/{organization_slug}/certificates/:
+    get:
+      operationId: organizations_certificates_list
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Certificate'
+          description: ''
+    post:
+      operationId: organizations_certificates_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+  /api/organizations/{organization_slug}/certificates/{id}/:
+    get:
+      operationId: organizations_certificates_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+    put:
+      operationId: organizations_certificates_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+    patch:
+      operationId: organizations_certificates_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCertificate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCertificate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCertificate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+    delete:
+      operationId: organizations_certificates_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/certificates/{id}/renew/:
+    post:
+      operationId: organizations_certificates_renew_create
+      description: Renew a certificate.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+  /api/organizations/{organization_slug}/certificates/{id}/revoke/:
+    post:
+      operationId: organizations_certificates_revoke_create
+      description: Revoke a certificate.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this certificate.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Certificate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Certificate'
+          description: ''
+  /api/organizations/{organization_slug}/lighthouses/:
+    get:
+      operationId: organizations_lighthouses_list
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    post:
+      operationId: organizations_lighthouses_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/organizations/{organization_slug}/lighthouses/{id}/:
+    get:
+      operationId: organizations_lighthouses_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    put:
+      operationId: organizations_lighthouses_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    patch:
+      operationId: organizations_lighthouses_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedLighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedLighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedLighthouse'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+    delete:
+      operationId: organizations_lighthouses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/lighthouses/{id}/check_in/:
+    post:
+      operationId: organizations_lighthouses_check_in_create
+      description: Handle lighthouse check-in.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/organizations/{organization_slug}/lighthouses/{id}/generate_config/:
+    post:
+      operationId: organizations_lighthouses_generate_config_create
+      description: Generate Nebula configuration for a lighthouse.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Lighthouse'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/organizations/{organization_slug}/lighthouses/{id}/nodes/:
+    get:
+      operationId: organizations_lighthouses_nodes_retrieve
+      description: Get nodes connected to this lighthouse.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this lighthouse.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lighthouse'
+          description: ''
+  /api/organizations/{organization_slug}/members/:
+    get:
+      operationId: organizations_members_list
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+          description: ''
+    post:
+      operationId: organizations_members_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membership'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+  /api/organizations/{organization_slug}/members/{id}/:
+    get:
+      operationId: organizations_members_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    put:
+      operationId: organizations_members_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Membership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Membership'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    patch:
+      operationId: organizations_members_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMembership'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+          description: ''
+    delete:
+      operationId: organizations_members_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this membership.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/networks/:
+    get:
+      operationId: organizations_networks_list
+      description: |-
+        API endpoints for managing organization networks.
+
+        Networks are used to define IP ranges and manage device connectivity within an organization.
+        Each organization has a primary network created automatically, and additional networks
+        can be created as needed.
+
+        Operations:
+        - List networks in an organization
+        - Create a new network
+        - Retrieve network details
+        - Update network information
+        - Delete a network
+        - Get available IPs in a network
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Network'
+          description: ''
+    post:
+      operationId: organizations_networks_create
+      description: |-
+        API endpoints for managing organization networks.
+
+        Networks are used to define IP ranges and manage device connectivity within an organization.
+        Each organization has a primary network created automatically, and additional networks
+        can be created as needed.
+
+        Operations:
+        - List networks in an organization
+        - Create a new network
+        - Retrieve network details
+        - Update network information
+        - Delete a network
+        - Get available IPs in a network
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Network'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Network'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Network'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+          description: ''
+  /api/organizations/{organization_slug}/networks/{id}/:
+    get:
+      operationId: organizations_networks_retrieve
+      description: |-
+        API endpoints for managing organization networks.
+
+        Networks are used to define IP ranges and manage device connectivity within an organization.
+        Each organization has a primary network created automatically, and additional networks
+        can be created as needed.
+
+        Operations:
+        - List networks in an organization
+        - Create a new network
+        - Retrieve network details
+        - Update network information
+        - Delete a network
+        - Get available IPs in a network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+          description: ''
+    put:
+      operationId: organizations_networks_update
+      description: |-
+        API endpoints for managing organization networks.
+
+        Networks are used to define IP ranges and manage device connectivity within an organization.
+        Each organization has a primary network created automatically, and additional networks
+        can be created as needed.
+
+        Operations:
+        - List networks in an organization
+        - Create a new network
+        - Retrieve network details
+        - Update network information
+        - Delete a network
+        - Get available IPs in a network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Network'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Network'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Network'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+          description: ''
+    patch:
+      operationId: organizations_networks_partial_update
+      description: |-
+        API endpoints for managing organization networks.
+
+        Networks are used to define IP ranges and manage device connectivity within an organization.
+        Each organization has a primary network created automatically, and additional networks
+        can be created as needed.
+
+        Operations:
+        - List networks in an organization
+        - Create a new network
+        - Retrieve network details
+        - Update network information
+        - Delete a network
+        - Get available IPs in a network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNetwork'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNetwork'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNetwork'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+          description: ''
+    delete:
+      operationId: organizations_networks_destroy
+      description: |-
+        API endpoints for managing organization networks.
+
+        Networks are used to define IP ranges and manage device connectivity within an organization.
+        Each organization has a primary network created automatically, and additional networks
+        can be created as needed.
+
+        Operations:
+        - List networks in an organization
+        - Create a new network
+        - Retrieve network details
+        - Update network information
+        - Delete a network
+        - Get available IPs in a network
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/networks/{id}/available_ips/:
+    get:
+      operationId: organizations_networks_available_ips_retrieve
+      description: |-
+        Get list of available IPs in this network.
+
+        This endpoint returns the next available IP address that can be assigned
+        to a device in this network.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this network.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Network'
+          description: ''
+  /api/organizations/{organization_slug}/nodes/:
+    get:
+      operationId: organizations_nodes_list
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Node'
+          description: ''
+    post:
+      operationId: organizations_nodes_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+  /api/organizations/{organization_slug}/nodes/{id}/:
+    get:
+      operationId: organizations_nodes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+    put:
+      operationId: organizations_nodes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+    patch:
+      operationId: organizations_nodes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNode'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNode'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNode'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+    delete:
+      operationId: organizations_nodes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/nodes/{id}/check_in/:
+    post:
+      operationId: organizations_nodes_check_in_create
+      description: Handle node check-in.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+  /api/organizations/{organization_slug}/nodes/{id}/generate_config/:
+    post:
+      operationId: organizations_nodes_generate_config_create
+      description: Generate Nebula configuration for a node.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this node.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Node'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Node'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Node'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Node'
+          description: ''
+  /api/organizations/{organization_slug}/security-groups/:
+    get:
+      operationId: organizations_security_groups_list
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+    post:
+      operationId: organizations_security_groups_create
+      parameters:
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+  /api/organizations/{organization_slug}/security-groups/{id}/:
+    get:
+      operationId: organizations_security_groups_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+    put:
+      operationId: organizations_security_groups_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+    patch:
+      operationId: organizations_security_groups_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSecurityGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSecurityGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSecurityGroup'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+    delete:
+      operationId: organizations_security_groups_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/security-groups/{id}/add_lighthouses/:
+    post:
+      operationId: organizations_security_groups_add_lighthouses_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+  /api/organizations/{organization_slug}/security-groups/{id}/add_nodes/:
+    post:
+      operationId: organizations_security_groups_add_nodes_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+  /api/organizations/{organization_slug}/security-groups/{id}/add_rule/:
+    post:
+      operationId: organizations_security_groups_add_rule_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SecurityGroup'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityGroup'
+          description: ''
+  /api/organizations/{organization_slug}/security-groups/{id}/remove_lighthouses/:
+    delete:
+      operationId: organizations_security_groups_remove_lighthouses_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/security-groups/{id}/remove_nodes/:
+    delete:
+      operationId: organizations_security_groups_remove_nodes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{organization_slug}/security-groups/{id}/remove_rule/:
+    delete:
+      operationId: organizations_security_groups_remove_rule_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+          format: uuid
+        description: A UUID string identifying this security group.
+        required: true
+      - in: path
+        name: organization_slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/organizations/{slug}/:
+    get:
+      operationId: organizations_retrieve
+      description: |-
+        API endpoints for managing organizations.
+
+        Organizations are the top-level entities in the system that group related resources
+        such as networks, lighthouses, and nodes. Each organization has its own:
+        - Certificate Authority
+        - Primary Network
+        - Security Groups
+        - Lighthouses
+        - Nodes
+        - Members
+
+        Operations:
+        - List organizations the user has access to
+        - Create a new organization with a primary network
+        - Retrieve organization details
+        - Update organization information
+        - Delete an organization (requires admin access)
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    put:
+      operationId: organizations_update
+      description: |-
+        API endpoints for managing organizations.
+
+        Organizations are the top-level entities in the system that group related resources
+        such as networks, lighthouses, and nodes. Each organization has its own:
+        - Certificate Authority
+        - Primary Network
+        - Security Groups
+        - Lighthouses
+        - Nodes
+        - Members
+
+        Operations:
+        - List organizations the user has access to
+        - Create a new organization with a primary network
+        - Retrieve organization details
+        - Update organization information
+        - Delete an organization (requires admin access)
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Organization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Organization'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    patch:
+      operationId: organizations_partial_update
+      description: |-
+        API endpoints for managing organizations.
+
+        Organizations are the top-level entities in the system that group related resources
+        such as networks, lighthouses, and nodes. Each organization has its own:
+        - Certificate Authority
+        - Primary Network
+        - Security Groups
+        - Lighthouses
+        - Nodes
+        - Members
+
+        Operations:
+        - List organizations the user has access to
+        - Create a new organization with a primary network
+        - Retrieve organization details
+        - Update organization information
+        - Delete an organization (requires admin access)
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganization'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Organization'
+          description: ''
+    delete:
+      operationId: organizations_destroy
+      description: |-
+        API endpoints for managing organizations.
+
+        Organizations are the top-level entities in the system that group related resources
+        such as networks, lighthouses, and nodes. Each organization has its own:
+        - Certificate Authority
+        - Primary Network
+        - Security Groups
+        - Lighthouses
+        - Nodes
+        - Members
+
+        Operations:
+        - List organizations the user has access to
+        - Create a new organization with a primary network
+        - Retrieve organization details
+        - Update organization information
+        - Delete an organization (requires admin access)
+      parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+      tags:
+      - organizations
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: Authenticate user and return JWT tokens
+      summary: User login
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Login'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: Successfully authenticated
+        '401':
+          description: Invalid credentials
+        '400':
+          description: Invalid input
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: Get a new access token using a refresh token
+      summary: Refresh JWT token
+      tags:
+      - authentication
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/RefreshToken'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefreshToken'
+          description: Successfully refreshed token
+        '401':
+          description: Invalid refresh token
+        '400':
+          description: Invalid input
+  /api/users/:
+    get:
+      operationId: users_list
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+          description: ''
+    post:
+      operationId: users_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /api/users/{id}/:
+    get:
+      operationId: users_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    put:
+      operationId: users_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    patch:
+      operationId: users_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUser'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+    delete:
+      operationId: users_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/users/me/:
+    get:
+      operationId: users_me_retrieve
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+          description: ''
+components:
+  schemas:
+    APIKey:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        key:
+          type: string
+          writeOnly: true
+        entity_type:
+          $ref: '#/components/schemas/EntityTypeEnum'
+        node_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        lighthouse_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        last_used:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - entity_type
+      - id
+      - last_used
+      - name
+    CertTypeEnum:
+      enum:
+      - node
+      - lighthouse
+      type: string
+      description: |-
+        * `node` - Node
+        * `lighthouse` - Lighthouse
+    Certificate:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        ca:
+          type: string
+          format: uuid
+        cert_type:
+          allOf:
+          - $ref: '#/components/schemas/CertTypeEnum'
+          title: Certificate type
+        cert:
+          type: string
+          readOnly: true
+          title: Certificate
+        expires_at:
+          type: string
+          format: date-time
+        revoked:
+          type: boolean
+          readOnly: true
+        revoked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        nebula_ip:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - ca
+      - cert
+      - cert_type
+      - created_at
+      - expires_at
+      - id
+      - nebula_ip
+      - revoked
+      - revoked_at
+      - updated_at
+    CertificateAuthority:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        network:
+          type: string
+          format: uuid
+        ca_cert:
+          type: string
+          readOnly: true
+          title: CA certificate
+        expires_at:
+          type: string
+          format: date-time
+        revoked:
+          type: boolean
+          readOnly: true
+        revoked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - ca_cert
+      - created_at
+      - expires_at
+      - id
+      - network
+      - organization
+      - revoked
+      - revoked_at
+      - updated_at
+    EntityTypeEnum:
+      enum:
+      - node
+      - lighthouse
+      type: string
+      description: |-
+        * `node` - Node
+        * `lighthouse` - Lighthouse
+    FirewallRule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        rule_type:
+          $ref: '#/components/schemas/RuleTypeEnum'
+        protocol:
+          $ref: '#/components/schemas/ProtocolEnum'
+        port:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+          nullable: true
+        cidr:
+          type: string
+          nullable: true
+          maxLength: 18
+        group:
+          type: string
+          format: uuid
+          nullable: true
+      required:
+      - id
+      - protocol
+      - rule_type
+    Lighthouse:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        hostname:
+          type: string
+          maxLength: 255
+        nebula_ip:
+          type: string
+          nullable: true
+        certificate:
+          allOf:
+          - $ref: '#/components/schemas/Certificate'
+          readOnly: true
+        security_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+          readOnly: true
+        security_group_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        network:
+          type: string
+          format: uuid
+          writeOnly: true
+          nullable: true
+        public_ip:
+          type: string
+        port:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_active:
+          type: boolean
+        last_check_in:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        config: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        api_key:
+          type: string
+          readOnly: true
+      required:
+      - api_key
+      - certificate
+      - created_at
+      - hostname
+      - id
+      - last_check_in
+      - name
+      - organization
+      - public_ip
+      - security_groups
+      - updated_at
+    Login:
+      type: object
+      description: Serializer for login endpoint.
+      properties:
+        email:
+          type: string
+          format: email
+          description: Email address for authentication
+        password:
+          type: string
+          writeOnly: true
+          description: Password for authentication
+      required:
+      - email
+      - password
+    Membership:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - organization
+      - updated_at
+      - user
+      - user_id
+    Network:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: Name of the network
+        cidr:
+          type: string
+          description: CIDR range for the network (e.g., 192.168.100.0/24)
+        description:
+          type: string
+          description: Description of the network
+        is_primary:
+          type: boolean
+          default: false
+          description: Whether this is the primary network for the organization
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - cidr
+      - created_at
+      - id
+      - name
+      - organization
+      - updated_at
+    Node:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        hostname:
+          type: string
+          maxLength: 255
+        nebula_ip:
+          type: string
+          nullable: true
+        certificate:
+          allOf:
+          - $ref: '#/components/schemas/Certificate'
+          readOnly: true
+        security_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+          readOnly: true
+        security_group_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        network:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        config:
+          readOnly: true
+        lighthouse:
+          type: string
+          format: uuid
+          nullable: true
+        api_key:
+          type: string
+          readOnly: true
+      required:
+      - api_key
+      - certificate
+      - config
+      - created_at
+      - hostname
+      - id
+      - name
+      - organization
+      - security_groups
+      - updated_at
+    Organization:
+      type: object
+      description: |-
+        Serializer for Organization model.
+
+        This serializer handles the creation and management of organizations, including:
+        - Basic organization information (name, slug, description)
+        - Organization members and their roles
+        - Certificate authority for device certificates
+        - Associated lighthouses and nodes
+        - Primary network configuration
+
+        When creating an organization, you can specify:
+        - Organization name (required)
+        - Organization description (optional)
+        - Network configuration (optional, defaults provided)
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        slug:
+          type: string
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/Membership'
+          readOnly: true
+          description: List of organization members and their roles
+        certificate_authority:
+          allOf:
+          - $ref: '#/components/schemas/CertificateAuthority'
+          readOnly: true
+          description: Certificate authority for managing device certificates
+        lighthouses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lighthouse'
+          readOnly: true
+          description: List of organization lighthouses
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+          readOnly: true
+          description: List of organization nodes
+        network_name:
+          type: string
+          default: Primary Network
+          description: Name for the primary network that will be created with the
+            organization
+        network_cidr:
+          type: string
+          default: 192.168.100.0/24
+          description: CIDR range for the primary network (e.g., 192.168.100.0/24)
+        network_description:
+          type: string
+          default: Primary network for the organization
+          description: Description for the primary network
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - certificate_authority
+      - created_at
+      - id
+      - lighthouses
+      - members
+      - name
+      - nodes
+      - slug
+      - updated_at
+    PatchedAPIKey:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        key:
+          type: string
+          writeOnly: true
+        entity_type:
+          $ref: '#/components/schemas/EntityTypeEnum'
+        node_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        lighthouse_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        expires_at:
+          type: string
+          format: date-time
+          nullable: true
+        last_used:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedCertificate:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        ca:
+          type: string
+          format: uuid
+        cert_type:
+          allOf:
+          - $ref: '#/components/schemas/CertTypeEnum'
+          title: Certificate type
+        cert:
+          type: string
+          readOnly: true
+          title: Certificate
+        expires_at:
+          type: string
+          format: date-time
+        revoked:
+          type: boolean
+          readOnly: true
+        revoked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        nebula_ip:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedCertificateAuthority:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        network:
+          type: string
+          format: uuid
+        ca_cert:
+          type: string
+          readOnly: true
+          title: CA certificate
+        expires_at:
+          type: string
+          format: date-time
+        revoked:
+          type: boolean
+          readOnly: true
+        revoked_at:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedLighthouse:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        hostname:
+          type: string
+          maxLength: 255
+        nebula_ip:
+          type: string
+          nullable: true
+        certificate:
+          allOf:
+          - $ref: '#/components/schemas/Certificate'
+          readOnly: true
+        security_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+          readOnly: true
+        security_group_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        network:
+          type: string
+          format: uuid
+          writeOnly: true
+          nullable: true
+        public_ip:
+          type: string
+        port:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_active:
+          type: boolean
+        last_check_in:
+          type: string
+          format: date-time
+          readOnly: true
+          nullable: true
+        config: {}
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        api_key:
+          type: string
+          readOnly: true
+    PatchedMembership:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          readOnly: true
+        user_id:
+          type: string
+          format: uuid
+          writeOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedNetwork:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          description: Name of the network
+        cidr:
+          type: string
+          description: CIDR range for the network (e.g., 192.168.100.0/24)
+        description:
+          type: string
+          description: Description of the network
+        is_primary:
+          type: boolean
+          default: false
+          description: Whether this is the primary network for the organization
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedNode:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        hostname:
+          type: string
+          maxLength: 255
+        nebula_ip:
+          type: string
+          nullable: true
+        certificate:
+          allOf:
+          - $ref: '#/components/schemas/Certificate'
+          readOnly: true
+        security_groups:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityGroup'
+          readOnly: true
+        security_group_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        network:
+          type: string
+          format: uuid
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+        config:
+          readOnly: true
+        lighthouse:
+          type: string
+          format: uuid
+          nullable: true
+        api_key:
+          type: string
+          readOnly: true
+    PatchedOrganization:
+      type: object
+      description: |-
+        Serializer for Organization model.
+
+        This serializer handles the creation and management of organizations, including:
+        - Basic organization information (name, slug, description)
+        - Organization members and their roles
+        - Certificate authority for device certificates
+        - Associated lighthouses and nodes
+        - Primary network configuration
+
+        When creating an organization, you can specify:
+        - Organization name (required)
+        - Organization description (optional)
+        - Network configuration (optional, defaults provided)
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        slug:
+          type: string
+          maxLength: 255
+          pattern: ^[-a-zA-Z0-9_]+$
+        description:
+          type: string
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/Membership'
+          readOnly: true
+          description: List of organization members and their roles
+        certificate_authority:
+          allOf:
+          - $ref: '#/components/schemas/CertificateAuthority'
+          readOnly: true
+          description: Certificate authority for managing device certificates
+        lighthouses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lighthouse'
+          readOnly: true
+          description: List of organization lighthouses
+        nodes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Node'
+          readOnly: true
+          description: List of organization nodes
+        network_name:
+          type: string
+          default: Primary Network
+          description: Name for the primary network that will be created with the
+            organization
+        network_cidr:
+          type: string
+          default: 192.168.100.0/24
+          description: CIDR range for the primary network (e.g., 192.168.100.0/24)
+        network_description:
+          type: string
+          default: Primary network for the organization
+          description: Description for the primary network
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedSecurityGroup:
+      type: object
+      description: Serializer for SecurityGroup model.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        firewall_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          readOnly: true
+        firewall_rule_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        node_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        lighthouse_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+    PatchedUser:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        full_name:
+          type: string
+          maxLength: 255
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+    ProtocolEnum:
+      enum:
+      - tcp
+      - udp
+      - icmp
+      - any
+      type: string
+      description: |-
+        * `tcp` - TCP
+        * `udp` - UDP
+        * `icmp` - ICMP
+        * `any` - Any
+    RefreshToken:
+      type: object
+      description: Serializer for token refresh endpoint.
+      properties:
+        refresh:
+          type: string
+          description: Refresh token for obtaining a new access token
+      required:
+      - refresh
+    RoleEnum:
+      enum:
+      - admin
+      - operator
+      - viewer
+      type: string
+      description: |-
+        * `admin` - Admin
+        * `operator` - Operator
+        * `viewer` - Viewer
+    RuleTypeEnum:
+      enum:
+      - inbound
+      - outbound
+      type: string
+      description: |-
+        * `inbound` - Inbound
+        * `outbound` - Outbound
+    SecurityGroup:
+      type: object
+      description: Serializer for SecurityGroup model.
+      properties:
+        id:
+          type: string
+          format: uuid
+          readOnly: true
+        organization:
+          type: string
+          format: uuid
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        description:
+          type: string
+        firewall_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/FirewallRule'
+          readOnly: true
+        firewall_rule_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        node_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+        lighthouse_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          writeOnly: true
+      required:
+      - firewall_rules
+      - id
+      - name
+      - organization
+    User:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        full_name:
+          type: string
+          maxLength: 255
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        date_joined:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - date_joined
+      - email
+      - full_name
+      - id
+    UserCreate:
+      type: object
+      description: Base serializer for all models.
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        full_name:
+          type: string
+          maxLength: 255
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - full_name
+      - id
+      - password
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
